@@ -33,17 +33,9 @@ class MainFragment : Fragment() {
             Observer { authenticationState ->
                 when (authenticationState) {
                     (AuthenticationState.UNAUTHENTICATED) -> {
-//                    binding.authButton.text = getString(R.string.logout_button_text)
-//                    binding.authButton.setOnClickListener {
-//                        // TODO implement logging out user in next step
-//                        AuthUI.getInstance().signOut(requireContext())
-//                    }
                         findNavController().navigate(R.id.loginFragment)
                     }
                     else -> {
-                        // TODO 3. Lastly, if there is no logged-in user,
-                        // auth_button should display Login and
-                        //  launch the sign in screen when clicked.
                     }
                 }
             })

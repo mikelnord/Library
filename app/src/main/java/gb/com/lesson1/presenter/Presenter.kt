@@ -3,20 +3,24 @@ package gb.com.lesson1.presenter
 import androidx.lifecycle.MutableLiveData
 import gb.com.lesson1.model.AuthenticationState
 import gb.com.lesson1.model.UserInfo
+import kotlinx.coroutines.*
 
-class Presenter {
+class Presenter() {
 
-     var authenticationState: MutableLiveData<AuthenticationState> = MutableLiveData(AuthenticationState.UNAUTHENTICATED)
+    var authenticationState: MutableLiveData<AuthenticationState> =
+        MutableLiveData(AuthenticationState.UNAUTHENTICATED)
 
     private val userList =
         arrayListOf<UserInfo>(UserInfo("Bob", "BobPassword"), UserInfo("Kate", "123"))
 
-    fun onLogin(userInfo: UserInfo) {
-        if (onCheckUser(userInfo)) {
-            authenticationState.value = AuthenticationState.AUTHENTICATED
-        } else {
-            authenticationState.value = AuthenticationState.INVALID_AUTHENTICATION
-        }
+    suspend fun onLogin(userInfo: UserInfo) {
+            delay(3000)
+            if (onCheckUser(userInfo)) {
+                authenticationState.postValue(AuthenticationState.AUTHENTICATED)
+            } else {
+                authenticationState.postValue(AuthenticationState.INVALID_AUTHENTICATION)
+            }
+
     }
 
     fun onRegister(userInfo: UserInfo) {
