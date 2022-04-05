@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Lesson1</string>
+    <string name="settings">Logout</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="forgot">forgot</string>
+    <string name="main_fragment">Main fragment</string>
+    <string name="loginHint">Login*</string>
+    <string name="password">Password*</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

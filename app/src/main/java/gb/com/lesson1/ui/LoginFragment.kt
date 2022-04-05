@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -91,6 +89,10 @@ class LoginFragment : Fragment() {
 
             }
             activity?.let { it1 -> hideKeyboard(it1) }
+        }
+
+        binding.buttonReg.setOnClickListener {
+            navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
     }
