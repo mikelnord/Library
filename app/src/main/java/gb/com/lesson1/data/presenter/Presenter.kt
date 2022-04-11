@@ -1,11 +1,11 @@
-package gb.com.lesson1.presenter
+package gb.com.lesson1.data.presenter
 
 import androidx.lifecycle.MutableLiveData
-import gb.com.lesson1.model.AuthenticationState
-import gb.com.lesson1.model.RegisterState
-import gb.com.lesson1.model.UserInfo
-import gb.com.lesson1.network.Repository
-import gb.com.lesson1.network.Result
+import gb.com.lesson1.domain.model.AuthenticationState
+import gb.com.lesson1.domain.model.RegisterState
+import gb.com.lesson1.domain.model.UserInfo
+import gb.com.lesson1.data.network.Repository
+import gb.com.lesson1.data.network.Result
 import kotlinx.coroutines.*
 
 class Presenter {
@@ -39,6 +39,10 @@ class Presenter {
             is Result.Success -> registerState.postValue(RegisterState.REGISTER)
         }
 
+    }
+
+    fun resetRegisterState(){
+        registerState.value=RegisterState.UNREGISTER
     }
 
     fun onLogout() {

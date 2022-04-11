@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/textLogin"
+            android:id="@+id/login_edit_text"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -34,7 +34,7 @@
             android:typeface="normal" />
 
         <EditText
-            android:id="@+id/textPassword"
+            android:id="@+id/password_edit_text"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,7 +45,7 @@
             android:minHeight="48dp" />
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/login_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -53,7 +53,7 @@
             android:text="@string/login" />
 
         <Button
-            android:id="@+id/buttonReg"
+            android:id="@+id/register_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -61,7 +61,7 @@
             android:text="@string/registration" />
 
         <Button
-            android:id="@+id/buttonForgot"
+            android:id="@+id/forgot_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

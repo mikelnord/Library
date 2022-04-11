@@ -1,8 +1,9 @@
-package gb.com.lesson1
+package gb.com.lesson1.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import gb.com.lesson1.presenter.Presenter
+import gb.com.lesson1.R
+import gb.com.lesson1.data.presenter.Presenter
 
 class MainActivity : AppCompatActivity() {
 

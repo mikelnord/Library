@@ -1,4 +1,4 @@
-package gb.com.lesson1.model
+package gb.com.lesson1.domain.model
 
 data class UserInfo(val username: String, val password: String)
 

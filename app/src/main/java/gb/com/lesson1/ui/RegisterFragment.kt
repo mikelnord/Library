@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.MainActivity.Companion.presenter
+import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.databinding.FragmentRegisterBinding
-import gb.com.lesson1.model.RegisterState
-import gb.com.lesson1.model.UserInfo
+import gb.com.lesson1.domain.model.RegisterState
+import gb.com.lesson1.domain.model.UserInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,6 +37,7 @@ class RegisterFragment : Fragment() {
             when (registerState) {
                 RegisterState.REGISTER -> {
                     Toast.makeText(context, "User successfully added", Toast.LENGTH_SHORT).show()
+                    presenter.resetRegisterState()
                     navController.popBackStack()
                 }
                 RegisterState.NOTREGISTER -> Toast.makeText(
@@ -56,24 +57,24 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        binding.buttonReg.setOnClickListener {
-            val textLogin = binding.textLogin.text.toString().trim()
+        binding.registrButton.setOnClickListener {
+            val textLogin = binding.loginEditText.text.toString().trim()
             if (textLogin.isBlank()) {
-                binding.textLogin.error = "Enter a Login"
+                binding.loginEditText.error = "Enter a Login"
                 return@setOnClickListener
             }
 
-            val textPassword = binding.textPassword.text.toString().trim()
+            val textPassword = binding.passwordEditText.text.toString().trim()
             if (textPassword.isBlank()) {
-                binding.textPassword.error = "Enter a Password"
+                binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
             GlobalScope.launch(Dispatchers.Main) {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.buttonReg.isEnabled = false
+                binding.registrButton.isEnabled = false
                 presenter.onRegister(UserInfo(textLogin, textPassword))
                 binding.progressBar.visibility = View.GONE
-                binding.buttonReg.isEnabled = true
+                binding.registrButton.isEnabled = true
 
             }
         }

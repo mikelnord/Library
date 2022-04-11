@@ -1,6 +1,6 @@
-package gb.com.lesson1.network
+package gb.com.lesson1.data.network
 
-import gb.com.lesson1.model.UserInfo
+import gb.com.lesson1.domain.model.UserInfo
 import java.io.IOException
 import java.lang.Exception
 

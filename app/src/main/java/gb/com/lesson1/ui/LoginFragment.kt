@@ -1,6 +1,7 @@
 package gb.com.lesson1.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +11,11 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.MainActivity.Companion.presenter
+import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.R
 import gb.com.lesson1.databinding.FragmentLoginBinding
-import gb.com.lesson1.model.AuthenticationState
-import gb.com.lesson1.model.UserInfo
+import gb.com.lesson1.domain.model.AuthenticationState
+import gb.com.lesson1.domain.model.UserInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,12 +37,10 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val navController = findNavController()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             navController.popBackStack(R.id.mainFragment, false)
         }
-
         presenter.authenticationState.observe(viewLifecycleOwner) { authenticationState ->
             when (authenticationState) {
                 AuthenticationState.AUTHENTICATED -> navController.popBackStack()
@@ -50,7 +49,7 @@ class LoginFragment : Fragment() {
                     "No user or incorrect password",
                     Toast.LENGTH_SHORT
                 ).show()
-                AuthenticationState.SERVERERROR-> Toast.makeText(
+                AuthenticationState.SERVERERROR -> Toast.makeText(
                     context,
                     "Server error",
                     Toast.LENGTH_SHORT
@@ -62,36 +61,37 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.buttonLogin.setOnClickListener {
-            val textLogin = binding.textLogin.text.toString().trim()
+        binding.loginButton.setOnClickListener {
+            val textLogin = binding.loginEditText.text.toString().trim()
             if (textLogin.isBlank()) {
-                binding.textLogin.error = "Enter a Login"
+                binding.loginEditText.error = "Enter a Login"
                 return@setOnClickListener
             }
 
-            val textPassword = binding.textPassword.text.toString().trim()
+            val textPassword = binding.passwordEditText.text.toString().trim()
             if (textPassword.isBlank()) {
-                binding.textPassword.error = "Enter a Password"
+                binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
             GlobalScope.launch(Dispatchers.Main) {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.buttonLogin.isEnabled = false
-                binding.buttonForgot.isEnabled = false
-                binding.buttonReg.isEnabled = false
+                binding.loginButton.isEnabled = false
+                binding.forgotButton.isEnabled = false
+                binding.registerButton.isEnabled = false
                 presenter.onLogin(
                     UserInfo(textLogin, textPassword)
                 )
                 binding.progressBar.visibility = View.GONE
-                binding.buttonLogin.isEnabled = true
-                binding.buttonForgot.isEnabled = true
-                binding.buttonReg.isEnabled = true
+                binding.loginButton.isEnabled = true
+                binding.forgotButton.isEnabled = true
+                binding.registerButton.isEnabled = true
 
             }
             activity?.let { it1 -> hideKeyboard(it1) }
         }
 
-        binding.buttonReg.setOnClickListener {
+        binding.registerButton.setOnClickListener {
+            clearEditView(binding)
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
@@ -110,5 +110,10 @@ class LoginFragment : Fragment() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun clearEditView(binding: FragmentLoginBinding) {
+        binding.passwordEditText.text.clear()
+        binding.loginEditText.text.clear()
     }
 }
