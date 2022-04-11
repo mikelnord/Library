@@ -1,17 +1,16 @@
 package gb.com.lesson1.data.presenter
 
 import androidx.lifecycle.MutableLiveData
+import gb.com.lesson1.data.network.IRepository
 import gb.com.lesson1.domain.model.AuthenticationState
 import gb.com.lesson1.domain.model.RegisterState
 import gb.com.lesson1.domain.model.UserInfo
-import gb.com.lesson1.data.network.Repository
 import gb.com.lesson1.data.network.Result
 import kotlinx.coroutines.*
 
-class Presenter {
+class Presenter(private val repository: IRepository) {
 
     var currentUser: UserInfo? = null
-    private val repository = Repository()
 
     var authenticationState: MutableLiveData<AuthenticationState> =
         MutableLiveData(AuthenticationState.UNAUTHENTICATED)

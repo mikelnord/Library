@@ -4,11 +4,11 @@ import gb.com.lesson1.domain.model.UserInfo
 import java.io.IOException
 import java.lang.Exception
 
-class Repository {
+class MockRepository : IRepository {
     private val userList =
         arrayListOf(UserInfo("Bob", "BobPassword"), UserInfo("Kate", "123"))
 
-    fun remoteCheckUser(userInfo: UserInfo): Result<String> {
+    override fun remoteCheckUser(userInfo: UserInfo): Result<String> {
         if ((0..10).random() % 5 == 0) {
             return Result.ServerError(IOException("Server error"))
         }
@@ -18,7 +18,7 @@ class Repository {
         return Result.Error(Exception("User not found or incorrect password"))
     }
 
-    fun remoteRegister(userInfo: UserInfo): Result<String> {
+    override fun remoteRegister(userInfo: UserInfo): Result<String> {
         if ((0..10).random() % 5 == 0) {
             return Result.ServerError(IOException("Server error"))
         }
