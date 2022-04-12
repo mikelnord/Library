@@ -1,5 +1,6 @@
-package gb.com.lesson1.data.network
+package gb.com.lesson1.domain
 
+import gb.com.lesson1.data.network.Result
 import gb.com.lesson1.domain.model.UserInfo
 
 interface IRepository {

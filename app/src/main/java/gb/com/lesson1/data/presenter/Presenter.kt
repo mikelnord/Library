@@ -1,7 +1,7 @@
 package gb.com.lesson1.data.presenter
 
 import androidx.lifecycle.MutableLiveData
-import gb.com.lesson1.data.network.IRepository
+import gb.com.lesson1.domain.IRepository
 import gb.com.lesson1.domain.model.AuthenticationState
 import gb.com.lesson1.domain.model.RegisterState
 import gb.com.lesson1.domain.model.UserInfo
