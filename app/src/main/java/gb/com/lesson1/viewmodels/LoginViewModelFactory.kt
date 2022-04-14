@@ -3,8 +3,9 @@ package gb.com.lesson1.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import gb.com.lesson1.data.network.MockRepository
+import gb.com.lesson1.domain.IRepository
 
-class LoginViewModelFactory(private val repository: MockRepository) : ViewModelProvider.Factory {
+class LoginViewModelFactory(private val repository: IRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

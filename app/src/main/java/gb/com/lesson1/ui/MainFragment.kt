@@ -8,14 +8,20 @@ import androidx.navigation.fragment.findNavController
 import gb.com.lesson1.R
 import gb.com.lesson1.databinding.FragmentMainBinding
 import gb.com.lesson1.data.AuthenticationState
+import gb.com.lesson1.data.network.MockRepository
 import gb.com.lesson1.viewmodels.LoginViewModel
+import gb.com.lesson1.viewmodels.LoginViewModelFactory
 
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<LoginViewModel> {
+        LoginViewModelFactory(
+            MockRepository()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

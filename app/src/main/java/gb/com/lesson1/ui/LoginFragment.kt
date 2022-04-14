@@ -26,11 +26,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val TAG = "LoginFragment"
-    private val viewModel by activityViewModels<LoginViewModel> {
-        LoginViewModelFactory(
-            MockRepository()
-        )
-    }
+    private val viewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

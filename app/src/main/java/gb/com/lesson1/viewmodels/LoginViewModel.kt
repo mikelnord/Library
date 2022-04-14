@@ -13,7 +13,7 @@ import gb.com.lesson1.data.network.Result
 import kotlinx.coroutines.*
 
 class LoginViewModel(
-    private val repository: MockRepository,
+    private val repository: IRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
 
