@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.databinding.FragmentRegisterBinding
-import gb.com.lesson1.domain.model.RegisterState
-import gb.com.lesson1.domain.model.UserInfo
+import gb.com.lesson1.data.RegisterState
+import gb.com.lesson1.data.UserInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -57,7 +57,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        binding.registrButton.setOnClickListener {
+        binding.registerButton.setOnClickListener {
             val textLogin = binding.loginEditText.text.toString().trim()
             if (textLogin.isBlank()) {
                 binding.loginEditText.error = "Enter a Login"
@@ -71,10 +71,10 @@ class RegisterFragment : Fragment() {
             }
             GlobalScope.launch(Dispatchers.Main) {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.registrButton.isEnabled = false
+                binding.registerButton.isEnabled = false
                 presenter.onRegister(UserInfo(textLogin, textPassword))
                 binding.progressBar.visibility = View.GONE
-                binding.registrButton.isEnabled = true
+                binding.registerButton.isEnabled = true
 
             }
         }

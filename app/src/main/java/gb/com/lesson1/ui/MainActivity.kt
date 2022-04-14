@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import gb.com.lesson1.R
 import gb.com.lesson1.app
-import gb.com.lesson1.data.presenter.Presenter
+import gb.com.lesson1.ui.presenter.Presenter
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun restorePresenter(): Presenter {
         val presenter = lastCustomNonConfigurationInstance as? Presenter
-        return presenter ?: app.presenter
+        return presenter ?: Presenter(app.repository)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any {

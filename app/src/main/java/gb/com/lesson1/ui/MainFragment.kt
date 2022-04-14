@@ -1,6 +1,5 @@
 package gb.com.lesson1.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -8,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.R
 import gb.com.lesson1.databinding.FragmentMainBinding
-import gb.com.lesson1.domain.model.AuthenticationState
+import gb.com.lesson1.data.AuthenticationState
 
 
 class MainFragment : Fragment() {

@@ -1,7 +1,6 @@
 package gb.com.lesson1.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.R
 import gb.com.lesson1.databinding.FragmentLoginBinding
-import gb.com.lesson1.domain.model.AuthenticationState
-import gb.com.lesson1.domain.model.UserInfo
+import gb.com.lesson1.data.AuthenticationState
+import gb.com.lesson1.data.UserInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

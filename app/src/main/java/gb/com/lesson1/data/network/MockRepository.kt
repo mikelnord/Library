@@ -1,7 +1,7 @@
 package gb.com.lesson1.data.network
 
 import gb.com.lesson1.domain.IRepository
-import gb.com.lesson1.domain.model.UserInfo
+import gb.com.lesson1.data.UserInfo
 import java.io.IOException
 import java.lang.Exception
 

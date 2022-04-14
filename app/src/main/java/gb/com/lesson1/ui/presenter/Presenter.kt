@@ -1,10 +1,10 @@
-package gb.com.lesson1.data.presenter
+package gb.com.lesson1.ui.presenter
 
 import androidx.lifecycle.MutableLiveData
 import gb.com.lesson1.domain.IRepository
-import gb.com.lesson1.domain.model.AuthenticationState
-import gb.com.lesson1.domain.model.RegisterState
-import gb.com.lesson1.domain.model.UserInfo
+import gb.com.lesson1.data.AuthenticationState
+import gb.com.lesson1.data.RegisterState
+import gb.com.lesson1.data.UserInfo
 import gb.com.lesson1.data.network.Result
 import kotlinx.coroutines.*
 
@@ -41,7 +41,7 @@ class Presenter(private val repository: IRepository) {
     }
 
     fun resetRegisterState(){
-        registerState.value=RegisterState.UNREGISTER
+        registerState.value= RegisterState.UNREGISTER
     }
 
     fun onLogout() {
