@@ -3,17 +3,19 @@ package gb.com.lesson1.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.ui.MainActivity.Companion.presenter
 import gb.com.lesson1.R
 import gb.com.lesson1.databinding.FragmentMainBinding
 import gb.com.lesson1.data.AuthenticationState
+import gb.com.lesson1.viewmodels.LoginViewModel
 
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +27,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.authenticationState.observe(
+        viewModel.authenticationState.observe(
             viewLifecycleOwner
         ) { authenticationState ->
             when (authenticationState) {
@@ -39,7 +41,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        binding.mainScreenViewText.text = "Welcome user ${presenter.currentUser?.username}"
+        "Welcome user ${viewModel.currentUser?.username}".also { binding.mainScreenViewText.text = it }
     }
 
     override fun onDestroyView() {
@@ -59,7 +61,7 @@ class MainFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_logout -> {
-                presenter.onLogout()
+                viewModel.onLogout()
                 true
             }
             else -> super.onOptionsItemSelected(item)

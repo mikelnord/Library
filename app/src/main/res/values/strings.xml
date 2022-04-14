@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lesson2</string>
+    <string name="app_name">Lesson3</string>
     <string name="settings">Logout</string>
     <string name="login">Login</string>
     <string name="registration">Registration</string>

@@ -9,15 +9,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.ui.MainActivity.Companion.presenter
+import gb.com.lesson1.App
 import gb.com.lesson1.R
-import gb.com.lesson1.databinding.FragmentLoginBinding
 import gb.com.lesson1.data.AuthenticationState
 import gb.com.lesson1.data.UserInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import gb.com.lesson1.data.network.MockRepository
+import gb.com.lesson1.databinding.FragmentLoginBinding
+import gb.com.lesson1.viewmodels.LoginViewModel
+import gb.com.lesson1.viewmodels.LoginViewModelFactory
 
 
 class LoginFragment : Fragment() {
@@ -25,6 +26,11 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val TAG = "LoginFragment"
+    private val viewModel by activityViewModels<LoginViewModel> {
+        LoginViewModelFactory(
+            MockRepository()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +46,17 @@ class LoginFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             navController.popBackStack(R.id.mainFragment, false)
         }
-        presenter.authenticationState.observe(viewLifecycleOwner) { authenticationState ->
+        viewModel.authenticationState.observe(viewLifecycleOwner) { authenticationState ->
             when (authenticationState) {
                 AuthenticationState.AUTHENTICATED -> navController.popBackStack()
-                AuthenticationState.INVALID_AUTHENTICATION -> Toast.makeText(
-                    context,
-                    "No user or incorrect password",
-                    Toast.LENGTH_SHORT
-                ).show()
+                AuthenticationState.INVALID_AUTHENTICATION -> {
+                    Toast.makeText(
+                        context,
+                        "No user or incorrect password",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.resetAuthenticationState()
+                }
                 AuthenticationState.SERVERERROR -> Toast.makeText(
                     context,
                     "Server error",
@@ -72,20 +81,18 @@ class LoginFragment : Fragment() {
                 binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
-            GlobalScope.launch(Dispatchers.Main) {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.loginButton.isEnabled = false
-                binding.forgotButton.isEnabled = false
-                binding.registerButton.isEnabled = false
-                presenter.onLogin(
-                    UserInfo(textLogin, textPassword)
-                )
-                binding.progressBar.visibility = View.GONE
-                binding.loginButton.isEnabled = true
-                binding.forgotButton.isEnabled = true
-                binding.registerButton.isEnabled = true
+            binding.progressBar.visibility = View.VISIBLE
+            binding.loginButton.isEnabled = false
+            binding.forgotButton.isEnabled = false
+            binding.registerButton.isEnabled = false
+            viewModel.onLogin(
+                UserInfo(textLogin, textPassword)
+            )
+            binding.progressBar.visibility = View.GONE
+            binding.loginButton.isEnabled = true
+            binding.forgotButton.isEnabled = true
+            binding.registerButton.isEnabled = true
 
-            }
             activity?.let { it1 -> hideKeyboard(it1) }
         }
 

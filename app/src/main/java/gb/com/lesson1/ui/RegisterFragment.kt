@@ -7,20 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.ui.MainActivity.Companion.presenter
-import gb.com.lesson1.databinding.FragmentRegisterBinding
 import gb.com.lesson1.data.RegisterState
 import gb.com.lesson1.data.UserInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import gb.com.lesson1.databinding.FragmentRegisterBinding
+import gb.com.lesson1.viewmodels.LoginViewModel
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private val TAG = "RegisterFragment"
+    private val viewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +32,11 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
-        presenter.registerState.observe(viewLifecycleOwner) { registerState ->
+        viewModel.registerState.observe(viewLifecycleOwner) { registerState ->
             when (registerState) {
                 RegisterState.REGISTER -> {
                     Toast.makeText(context, "User successfully added", Toast.LENGTH_SHORT).show()
-                    presenter.resetRegisterState()
+                    viewModel.resetRegisterState()
                     navController.popBackStack()
                 }
                 RegisterState.NOTREGISTER -> Toast.makeText(
@@ -69,14 +68,12 @@ class RegisterFragment : Fragment() {
                 binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
-            GlobalScope.launch(Dispatchers.Main) {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.registerButton.isEnabled = false
-                presenter.onRegister(UserInfo(textLogin, textPassword))
-                binding.progressBar.visibility = View.GONE
-                binding.registerButton.isEnabled = true
+            binding.progressBar.visibility = View.VISIBLE
+            binding.registerButton.isEnabled = false
+            viewModel.onRegister(UserInfo(textLogin, textPassword))
+            binding.progressBar.visibility = View.GONE
+            binding.registerButton.isEnabled = true
 
-            }
         }
 
     }
