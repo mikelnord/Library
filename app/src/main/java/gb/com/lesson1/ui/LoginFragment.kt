@@ -1,24 +1,21 @@
 package gb.com.lesson1.ui
 
-import android.app.Activity
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.view.inputmethod.InputMethodManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import gb.com.lesson1.App
 import gb.com.lesson1.R
 import gb.com.lesson1.data.AuthenticationState
 import gb.com.lesson1.data.UserInfo
-import gb.com.lesson1.data.network.MockRepository
 import gb.com.lesson1.databinding.FragmentLoginBinding
+import gb.com.lesson1.util.hideKeyboard
 import gb.com.lesson1.viewmodels.LoginViewModel
-import gb.com.lesson1.viewmodels.LoginViewModelFactory
 
 
 class LoginFragment : Fragment() {
@@ -65,6 +62,19 @@ class LoginFragment : Fragment() {
             }
         }
 
+        viewModel.progressState.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            binding.loginButton.isEnabled = !it
+            binding.forgotButton.isEnabled = !it
+            binding.registerButton.isEnabled = !it
+            binding.loginEditText.isEnabled = !it
+            binding.passwordEditText.isEnabled = !it
+        }
+
         binding.loginButton.setOnClickListener {
             val textLogin = binding.loginEditText.text.toString().trim()
             if (textLogin.isBlank()) {
@@ -77,17 +87,10 @@ class LoginFragment : Fragment() {
                 binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
-            binding.progressBar.visibility = View.VISIBLE
-            binding.loginButton.isEnabled = false
-            binding.forgotButton.isEnabled = false
-            binding.registerButton.isEnabled = false
             viewModel.onLogin(
                 UserInfo(textLogin, textPassword)
             )
             binding.progressBar.visibility = View.GONE
-            binding.loginButton.isEnabled = true
-            binding.forgotButton.isEnabled = true
-            binding.registerButton.isEnabled = true
 
             activity?.let { it1 -> hideKeyboard(it1) }
         }
@@ -102,16 +105,6 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun hideKeyboard(activity: Activity) {
-        val imm: InputMethodManager =
-            activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        var view: View? = activity.currentFocus
-        if (view == null) {
-            view = View(activity)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun clearEditView(binding: FragmentLoginBinding) {

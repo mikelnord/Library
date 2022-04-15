@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import gb.com.lesson1.data.RegisterState
 import gb.com.lesson1.data.UserInfo
 import gb.com.lesson1.databinding.FragmentRegisterBinding
+import gb.com.lesson1.util.hideKeyboard
 import gb.com.lesson1.viewmodels.LoginViewModel
 
 class RegisterFragment : Fragment() {
@@ -56,6 +57,18 @@ class RegisterFragment : Fragment() {
             }
         }
 
+        viewModel.progressState.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            binding.registerButton.isEnabled = !it
+            binding.loginEditText.isEnabled = !it
+            binding.passwordEditText.isEnabled = !it
+        }
+
+
         binding.registerButton.setOnClickListener {
             val textLogin = binding.loginEditText.text.toString().trim()
             if (textLogin.isBlank()) {
@@ -68,12 +81,8 @@ class RegisterFragment : Fragment() {
                 binding.passwordEditText.error = "Enter a Password"
                 return@setOnClickListener
             }
-            binding.progressBar.visibility = View.VISIBLE
-            binding.registerButton.isEnabled = false
             viewModel.onRegister(UserInfo(textLogin, textPassword))
-            binding.progressBar.visibility = View.GONE
-            binding.registerButton.isEnabled = true
-
+            activity?.let { it1 -> hideKeyboard(it1) }
         }
 
     }
