@@ -40,16 +40,23 @@ class RegisterFragment : Fragment() {
                     viewModel.resetRegisterState()
                     navController.popBackStack()
                 }
-                RegisterState.NOTREGISTER -> Toast.makeText(
-                    context,
-                    "Error adding a user",
-                    Toast.LENGTH_SHORT
-                ).show()
-                RegisterState.SERVERERROR -> Toast.makeText(
-                    context,
-                    "Server error",
-                    Toast.LENGTH_SHORT
-                ).show()
+                RegisterState.NOTREGISTER -> {
+                    Toast.makeText(
+                        context,
+                        "Error adding a user",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.resetRegisterState()
+                }
+                RegisterState.SERVERERROR -> {
+                    Toast.makeText(
+                        context,
+                        "Server error",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.resetRegisterState()
+                }
+                RegisterState.UNREGISTER -> {}
                 else -> Log.e(
                     TAG,
                     "Register state that doesn't require any UI change $registerState"

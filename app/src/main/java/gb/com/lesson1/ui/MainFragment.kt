@@ -47,7 +47,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        "Welcome user ${viewModel.currentUser?.username}".also { binding.mainScreenViewText.text = it }
+        "Welcome user ${viewModel.currentUser?.username}".also { binding.mainScreenTextView.text = it }
     }
 
     override fun onDestroyView() {

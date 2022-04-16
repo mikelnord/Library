@@ -50,11 +50,15 @@ class LoginFragment : Fragment() {
                     ).show()
                     viewModel.resetAuthenticationState()
                 }
-                AuthenticationState.SERVERERROR -> Toast.makeText(
-                    context,
-                    "Server error",
-                    Toast.LENGTH_SHORT
-                ).show()
+                AuthenticationState.SERVERERROR -> {
+                    Toast.makeText(
+                        context,
+                        "Server error",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.resetAuthenticationState()
+                }
+                AuthenticationState.UNAUTHENTICATED ->{}
                 else -> Log.e(
                     TAG,
                     "Authentication state that doesn't require any UI change $authenticationState"
